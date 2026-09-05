@@ -1,0 +1,15 @@
+{
+  "problem": "AIM-PROBABILITY-0002",
+  "status": "unrefereed-candidate",
+  "claims": [
+    {"id": "C1", "claim": "The exact forward-KL radius of the closed three-bit two-product-mixture model is -3/4 log(2 sqrt(3)-3) nats.", "evidence": ["PROOF.md Sections 2-5", "verify.py", "certificates/"]},
+    {"id": "C2", "claim": "Only the two uniform parity targets maximize the three-bit radius; each has four translated nearest distributions.", "evidence": ["PROOF.md Sections 2 and 6", "verify.py"]},
+    {"id": "C3", "claim": "A finite certificate covers all real target weights, with 52 roots, 16600 leaves, 93792 vertex conditions, 552 parity equality incidences and maximum depth 20.", "evidence": ["verification.json", "PROOF.md Section 4"]},
+    {"id": "C4", "claim": "The rational target interface returns exact feasible mixture parameters and a reconstruction trace, not a generally optimal projection.", "evidence": ["witness.py", "test_witness.py", "PROOF.md Section 7.1"]},
+    {"id": "C5", "claim": "For n>=3 and k>=2^(n-2), the n-bit k-product-mixture radius is at most the same natural-log constant.", "evidence": ["PROOF.md Section 7.2", "witness.py"], "exclusions": ["higher-dimensional sharpness", "larger-RBM equivalence", "novel conditioning mechanism"]}
+  ],
+  "excluded": ["independent-person validation", "formal verification", "authenticated external specialist review", "journal peer review", "exhaustive novelty", "priority", "four-star rating", "measured impact"],
+  "creator": "Anonymous",
+  "publisher": "Evidence Press",
+  "provenance": "Human research direction and supplied review; OpenAI Codex mathematical, coding, revision and publishing assistance. Internal model-mediated review is producer-coordinated."
+}

@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "Please cite the anonymous unrefereed candidate and retain its assurance boundary."
+type: article
+title: "The Exact KL Radius of Two Bernoulli Products on Three Bits"
+authors:
+  - name: Anonymous
+version: 0.1.0-candidate
+date-released: 2026-09-05
+doi: 10.5281/zenodo.22339153
+url: https://evidencepress.org/releases/rbm31-exact-kl-radius/
+repository-code: https://github.com/ipitchford/rbm31-exact-kl-radius
+license: CC0-1.0

@@ -1,0 +1,37 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=25mm]{geometry}
+\usepackage{fontspec,amsmath,amssymb,booktabs,longtable,array,calc,graphicx,caption}
+\setmainfont{lmroman10-regular.otf}[BoldFont=lmroman10-bold.otf,ItalicFont=lmroman10-italic.otf,BoldItalicFont=lmroman10-bolditalic.otf]
+\setmonofont{lmmono10-regular.otf}[Scale=MatchLowercase]
+\IfFontExistsTF{Noto Serif CJK TC}{\newfontfamily\chinesefont{Noto Serif CJK TC}}{\newfontfamily\chinesefont{STHeiti Medium.ttc}[Path=/System/Library/Fonts/,FontIndex=1]}
+\usepackage{xcolor}
+\definecolor{ink}{HTML}{143A3E}
+\usepackage[colorlinks=true,linkcolor=ink,urlcolor=ink]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}\fancyhf{}\fancyhead[L]{\small Exact three-bit KL radius}\fancyhead[R]{\small Unrefereed candidate}\fancyfoot[C]{\thepage}
+\setlength{\headheight}{14pt}
+\setlength{\parskip}{0.35em}\setlength{\parindent}{0pt}
+\setlength{\emergencystretch}{2em}
+\setcounter{secnumdepth}{-1}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\providecommand{\pandocbounded}[1]{#1}
+\newcommand{\passthrough}[1]{#1}
+\usepackage{fancyvrb}
+\title{The Exact KL Radius of Two Bernoulli Products on Three Bits}
+\author{Anonymous}
+\date{Version 0.1.0-candidate\quad 5 September 2026}
+\hypersetup{pdftitle={The Exact KL Radius of Two Bernoulli Products on Three Bits},pdfauthor={Anonymous}}
+\begin{document}
+\maketitle
+\begin{center}\small\href{https://doi.org/10.5281/zenodo.22339153}{doi:10.5281/zenodo.22339153}\quad\textbar\quad Evidence Press\end{center}
+\begin{abstract}
+We give a computer-assisted proof candidate for the maximum forward Kullback--Leibler divergence from a distribution on three binary variables to a mixture of two Bernoulli products, equivalently the closure of RBM(3,1). The exact value is $-\tfrac34\log(2\sqrt3-3)$ nats; the only maximizing targets are the two uniform parity distributions. A three-multiplier log-supermodular certificate proves the lower bound. Reverse local stochastic channels reduce all targets to six support orbits, whose continuous simplices are covered by 16,600 exact witness pieces. A standard-library checker verifies 93,792 vertex conditions. We provide an executable rational target-to-witness interface and a conditioning corollary for mixtures of $2^{n-2}$ products on $n$ bits. The constant was conjectured previously. Producer replay and internal model review are not unaffiliated verification or journal peer review.
+\end{abstract}
+\textbf{Keywords:} Kullback--Leibler divergence; latent class model; Bernoulli mixture; restricted Boltzmann machine; exact certificate.
+
+\input{paper-body.tex}
+
+\section*{Traditional Chinese abstract}
+{\chinesefont\XeTeXlinebreaklocale "zh"\XeTeXlinebreakskip=0pt plus 1pt
+本文提出一項電腦輔助證明候選結果，求出三個二元變數的機率分布到兩個伯努利乘積分布混合模型的最大正向 KL 散度。其精確值為 $-\tfrac34\log(2\sqrt3-3)$，單位為奈特；僅有兩個均勻奇偶分布達到最大值。證明結合反向局部隨機通道、對數超模性，以及可重播的精確凸覆蓋證書。另提供從有理目標分布產生可行近似的程式，以及透過條件分布得到的高維上界。這是尚未經外部同儕審查的匿名人工智慧輔助候選論文，並未宣稱獨立驗證或高維上界的銳利性。}
+\end{document}

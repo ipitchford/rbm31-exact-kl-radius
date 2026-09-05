@@ -1,0 +1,793 @@
+\subsection{1. Statement and answer}\label{statement-and-answer}
+
+Write \(X=\{0,1\}^3\), ordered as \(000,001,010,011,100,101,110,111\).
+Let
+
+\[
+\mathcal M=\left\{\lambda\bigotimes_{i=1}^3\mathrm{Ber}(u_i)
+ +(1-\lambda)\bigotimes_{i=1}^3\mathrm{Ber}(v_i):
+ \lambda,u_i,v_i\in[0,1]\right\}.
+\]
+
+This is the closure of binary RBM(3,1). Define
+
+\[
+\rho(p)=\min_{q\in\mathcal M}D(p\Vert q),\qquad
+D(p\Vert q)=\sum_{x:p_x>0}p_x\log\frac{p_x}{q_x}.
+\]
+
+A positive target entry divided by zero gives infinite divergence. The
+minimum exists: the parameter cube is compact, its image is compact,
+divergence is lower semicontinuous, and the uniform distribution
+supplies a finite competitor. Using the infimum over finite RBM
+parameters gives the same value, by approximation of the mixture
+parameters from the interior.
+
+\textbf{Theorem (computer-assisted).}
+
+\[
+\boxed{\max_{p\in\Delta_7}\rho(p)
+=c=-\frac34\log(2\sqrt3-3)
+=\frac34\log\left(1+\frac2{\sqrt3}\right).}
+\]
+
+Numerically, \(c\approx0.575738814443\) nats, or
+\(c/\log2\approx0.830615532444\) bits (12 decimal places). The only
+maximizing target distributions are
+
+\[
+u_E=\tfrac14(\delta_{000}+\delta_{011}+\delta_{101}+\delta_{110}),
+\qquad
+u_O=\tfrac14(\delta_{001}+\delta_{010}+\delta_{100}+\delta_{111}).
+\]
+
+The proof has two parts. Section 2 gives an analytic lower bound and an
+exact parity projection. Sections 3--6 give the universal upper bound
+and classify all equality cases. The computer-assisted part is a finite
+convex-cover lemma, not a sample or an asymptotic numerical estimate.
+
+\subsection{2. Exact lower bound: the parity
+projection}\label{exact-lower-bound-the-parity-projection}
+
+Put \(s=\sqrt3\),
+
+\[
+a=\frac{2-s}{4},\qquad b=\frac{2s-3}{4},\qquad
+q^*=(\tfrac14,a,a,b,a,b,b,3a).
+\]
+
+All entries are positive, and
+
+\[
+q^*=\alpha\delta_{000}+(1-\alpha)\mathrm{Ber}(t)^{\otimes3},
+\qquad \alpha=\frac{3-s}{6},\quad t=\frac{3-s}{2}.
+\tag{1}
+\]
+
+Thus \(q^*\in\mathcal M\). Direct substitution gives
+
+\[
+D(u_E\Vert q^*)=-\frac34\log(4b)=c.
+\tag{2}
+\]
+
+It remains to exclude every better mixture; evaluating (2) alone would
+not do that.
+
+\subsubsection{2.1 Necessary supermodular
+inequalities}\label{necessary-supermodular-inequalities}
+
+For coordinatewise meet and join, let \(A\) have one row
+
+\[
+A_{xy}=e_{x\wedge y}+e_{x\vee y}-e_x-e_y
+\]
+
+for each incomparable unordered pair \(x,y\) in the three-cube. There
+are nine rows. A positive probability table is log-supermodular in this
+orientation when \(A\log q\ge0\).
+
+Every strictly positive-parameter mixture in \(\mathcal M\) is
+log-supermodular after independent coordinate complements. To see this
+directly, complement coordinate \(i\) if necessary so that
+\(u_i\le v_i\). Factoring out the first product gives
+
+\[
+\log q(x)=\text{a modular function of }x
+ +\log(1+\exp(d+\sum_i w_i x_i)),\qquad w_i\ge0.
+\]
+
+The function \(\phi(z)=\log(1+e^z)\) has \(\phi''\ge0\). Its
+supermodular difference is
+
+\[
+\phi(z+r+t)+\phi(z)-\phi(z+r)-\phi(z+t)
+=\int_0^r\int_0^t\phi''(z+v+w)\,dw\,dv\ge0
+\]
+
+for \(r,t\ge0\). Hence all nine inequalities hold. Approximating
+boundary mixture parameters proves the corresponding closed polynomial
+inequalities there as well.
+
+Complementing all three coordinates preserves the same cone, since it
+exchanges meet with join. The eight orientations therefore have four
+representatives. The even complements \(0,3,5,6\) represent all four and
+preserve \(u_E\). Only this necessary inclusion is used; sufficiency of
+the supermodularity conditions is not required by the proof.
+
+\subsubsection{2.2 A three-multiplier convex
+certificate}\label{a-three-multiplier-convex-certificate}
+
+For arbitrary \(z\in\mathbb R^8\), define
+
+\[
+F(z)=\log\sum_xe^{z_x}-\sum_x(u_E)_x z_x.
+\]
+
+This is convex, and \(\nabla F(\log q^*)=q^*-u_E\). The three
+square-face rows with their upper vertex at \(111\) are
+
+\[
+L_1=e_{001}+e_{111}-e_{011}-e_{101},
+\] \[
+L_2=e_{010}+e_{111}-e_{011}-e_{110},\qquad
+L_3=e_{100}+e_{111}-e_{101}-e_{110}.
+\]
+
+They satisfy
+
+\[
+L_i\log q^*=0,\qquad
+q^*-u_E=a(L_1+L_2+L_3),\qquad a>0.
+\tag{3}
+\]
+
+Indeed, the active-face identities are \(b^2=3a^2\). The remaining six
+supermodular inequalities are strict; they reduce to the positive
+quantities \(b/4-a^2\) and \(3a/4-ab\).
+
+For any \(z\) in this cone, the convex supporting-plane inequality and
+(3) give
+
+\[
+F(z)\ge F(\log q^*)+a\sum_{i=1}^3L_i(z-\log q^*)
+\ge F(\log q^*).
+\]
+
+Adding the constant \(\sum_x(u_E)_x\log(u_E)_x\) proves
+\(D(u_E\Vert q)\ge c\) throughout this cone. Applying an even complement
+gives the same bound in each of the other three orientations. Every
+mixture with interior parameters belongs to one of these cones.
+Approximation by interior mixture parameters extends the inequality to
+all of \(\mathcal M\), including infinite-divergence cases. Together
+with (1)--(2), this proves
+
+\[
+\rho(u_E)=\rho(u_O)=c.
+\tag{4}
+\]
+
+For completeness, the four closest distributions to \(u_E\) are
+precisely the even translates \(q^*(x\mathbin\oplus f)\),
+\(f\in\{0,3,5,6\}\). For positive \(q\), the preceding supporting-plane
+remainder equals \(D(q^*\Vert q)\); thus equality within a cone forces
+\(q=q^*\). A boundary \(q\) with a zero entry cannot give equality:
+along an interior approximation the same remainder tends to infinity
+because \(q^*>0\). Odd translates give the four projections for \(u_O\).
+
+The function \texttt{lower\_certificate()} in \texttt{verify.py} checks
+(1), normalization, positivity, all nine polynomial inequalities, the
+three active faces, (3), and the objective identity exactly in
+\(\mathbb Q(\sqrt3)\).
+
+\subsection{3. Reduce every target to six support
+types}\label{reduce-every-target-to-six-support-types}
+
+\subsubsection{3.1 Local-channel
+monotonicity}\label{local-channel-monotonicity}
+
+A stochastic map on one binary coordinate takes a Bernoulli product to
+another Bernoulli product. It therefore preserves \(\mathcal M\), as
+does a product of such maps. The log-sum inequality gives data
+processing,
+
+\[
+D(Kp\Vert Kq)\le D(p\Vert q).
+\]
+
+Taking infima and using \(K\mathcal M\subseteq\mathcal M\) gives
+
+\[
+\rho(Kp)\le\rho(p).
+\tag{5}
+\]
+
+Coordinate permutations and complements preserve \(\rho\) exactly, since
+their inverses also preserve the model.
+
+\subsubsection{3.2 Removing an entry by reversing a
+channel}\label{removing-an-entry-by-reversing-a-channel}
+
+Fix one coordinate, with two unnormalized slices \(u_y=p_{a,y}\) and
+\(v_y=p_{b,y}\). Suppose both slices have nonempty support and
+
+\[
+\operatorname{supp}(u)\subseteq\operatorname{supp}(v).
+\]
+
+Define
+
+\[
+\tau=\min_{y:u_y>0}\frac{v_y}{u_y}>0,
+\qquad r_{a,y}=(1+\tau)u_y,\quad r_{b,y}=v_y-\tau u_y.
+\tag{6}
+\]
+
+The table \(r\) is nonnegative and has total mass one. It has no new
+positive entry and has at least one fewer positive entry. Moreover,
+\(p=Kr\), where
+
+\[
+K(a\mid a)=\frac1{1+\tau},\quad
+K(b\mid a)=\frac\tau{1+\tau},\quad K(b\mid b)=1.
+\tag{7}
+\]
+
+Consequently \(\rho(p)\le\rho(r)\) by (5). Comparable slices in the
+other direction are treated by swapping \(a,b\).
+
+If a coordinate has only one nonempty slice, the distribution belongs to
+\(\mathcal M\): any two-bit distribution is a mixture of two products by
+conditioning on either of its bits. Otherwise repeat (6) whenever
+possible. In at most seven steps, the process reaches either that
+zero-distance case or a support whose two projected slices are
+incomparable in each coordinate.
+
+\subsubsection{3.3 Exhaustive support
+classification}\label{exhaustive-support-classification}
+
+For a nonempty support \(S\subseteq\{0,\ldots,7\}\) and a bit
+\(b\in\{1,2,4\}\), form
+
+\[
+S_0(b)=\{x\in S:x\mathbin\&b=0\},\qquad
+S_1(b)=\{x\mathbin\oplus b:x\in S, x\mathbin\&b\ne0\}.
+\]
+
+Retain \(S\) if neither of these two sets contains the other, for all
+three bits. Exhaustively applying this test to all 255 nonempty supports
+retains 50. Their orbits under the 48 coordinate permutations and
+complements have exactly the following representatives:
+
+{
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2000}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2667}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2667}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2667}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Representative, in binary-index notation
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Orbit size
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Cover pieces
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Vertex checks
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\(0,7\) & 4 & 2 & 4 \\
+\(0,3,5\) & 8 & 18 & 54 \\
+\(0,1,2,7\) & 24 & 112 & 448 \\
+\(0,3,5,6\) & 2 & 648 & 2,592 \\
+\(0,1,2,4,7\) & 8 & 4,226 & 21,130 \\
+\(0,1,2,5,6,7\) & 4 & 11,594 & 69,564 \\
+\textbf{Total} & \textbf{50} & \textbf{16,600} & \textbf{93,792} \\
+\end{longtable}
+}
+
+The support enumeration is separately implemented in
+\texttt{support\_certificate()}, without importing the discovery code.
+All weights on these supports remain arbitrary real probabilities.
+Enumerating supports does not discretize those weights; the next section
+covers their entire simplices. There are 52 prescribed roots in total
+and maximum split depth 20; both statistics are reconstructed in the
+replay receipt.
+
+\subsection{4. The finite convex-cover
+lemma}\label{the-finite-convex-cover-lemma}
+
+\textbf{Lemma.} For each of the six support simplices above, there is a
+finite simplicial cover such that every piece has a single explicit
+witness \(q\in\mathcal M\) satisfying
+
+\[
+D(v\Vert q)\le c
+\tag{8}
+\]
+
+at every vertex \(v\) of that piece. Every verified vertex inequality is
+strict except when the vertex is exactly \(u_E\) or \(u_O\); those
+equalities use the corresponding translated witness from Section 2.
+
+This is the computer-assisted lemma. Its exact data are the six JSON
+files in \texttt{certificates/}. Their hashes appear in
+\texttt{verification.json} and the bundle manifest. The checker proves
+the following finite assertions from those data; no discovery score is
+accepted as evidence.
+
+\subsubsection{4.1 The initial cover is
+explicit}\label{the-initial-cover-is-explicit}
+
+For four of the support types, the root is simply the full probability
+simplex on the indicated vertices. For \(S=\{0,3,5,6\}\), take each of
+the 24 orders \(x_1,x_2,x_3,x_4\) and the simplex with vertices
+
+\[
+r_j=\frac1j\sum_{i=1}^j\delta_{x_i},\qquad j=1,2,3,4.
+\tag{9}
+\]
+
+These simplices cover the parity simplex. Indeed, order the weights so
+that \(p_{x_1}\ge\cdots\ge p_{x_4}\), put \(p_{x_5}=0\), and use the
+exact convex decomposition
+
+\[
+p=\sum_{j=1}^4 j(p_{x_j}-p_{x_{j+1}})r_j.
+\tag{10}
+\]
+
+The coefficients are nonnegative and sum to one.
+
+For \(S=\{0,1,2,4,7\}\), use all orders of the odd-parity vertices and
+cone each simplex (9) from \(\delta_0\). Formula (10), with an
+additional coefficient \(p_0\) at \(\delta_0\), proves coverage. All
+these root vertices are rational and are reconstructed by the checker.
+
+\subsubsection{4.2 Every subdivision preserves
+coverage}\label{every-subdivision-preserves-coverage}
+
+A split record names two distinct vertex positions \(i,j\). Let
+\(m=(v_i+v_j)/2\). Replace the parent simplex by two children, replacing
+\(v_i\) with \(m\) in one child and \(v_j\) with \(m\) in the other.
+
+The children cover the parent: in barycentric coordinates \(\lambda\),
+choose the first child if \(\lambda_i\le\lambda_j\), assigning weight
+\(2\lambda_i\) to \(m\) and \(\lambda_j-\lambda_i\) to \(v_j\). The
+other case is symmetric. Conversely both children lie in the parent. All
+new vertices are rational.
+
+Starting from the prescribed roots, the checker follows both children of
+every split, reconstructs their vertices with exact fractions, and
+requires every reached node to exist exactly once. It rejects invalid
+split edges, missing children, duplicate addresses, and unreachable
+extra nodes. Thus the final leaves form a genuine cover of every root
+simplex.
+
+\subsubsection{4.3 Witnesses belong to the requested
+model}\label{witnesses-belong-to-the-requested-model}
+
+There are only two witness formats.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  A \texttt{star} witness specifies an atom \(f\) and means the
+  translated distribution \(q^*(x\mathbin\oplus f)\) from (1).
+  Membership is exact in \(\mathbb Q(\sqrt3)\).
+\item
+  A \texttt{mixture} witness gives seven integers and a positive common
+  denominator. They specify \(\lambda,u_1,u_2,u_3,v_1,v_2,v_3\). The
+  checker verifies that all parameters are in \([0,1]\), reconstructs
+  the eight probabilities as exact rational numbers, and checks
+  normalization and nonnegativity.
+\end{enumerate}
+
+The search rounded mixture parameters, not probability-table entries.
+Hence membership does not rest on a tolerance test for tensor rank, a
+numerical decomposition, or approximate vanishing of a determinant.
+
+\subsubsection{4.4 The logarithm inequalities use exact
+arithmetic}\label{the-logarithm-inequalities-use-exact-arithmetic}
+
+For a rational \(x>0\), first write \(x=2^k u\), \(1\le u<2\). Set
+\(y=(u-1)/(u+1)\), so \(0\le y\le1/3\). Then
+
+\[
+\log u=2\sum_{j=0}^{N-1}\frac{y^{2j+1}}{2j+1}+R_N,
+\quad
+0\le R_N\le\frac{9}{4(2N+1)3^{2N+1}}.
+\tag{11}
+\]
+
+The tail estimate follows by bounding all remaining denominators by
+\(2N+1\) and summing a geometric series. The checker uses \(N=48\),
+fixed-point scale \(2^{128}\), and integer floor/ceiling operations
+after every multiplication and division. The same procedure bounds
+\(\log2\). Negative \(k\) reverses the endpoints of the multiplied
+interval. Thus every returned interval rigorously contains the
+logarithm.
+
+For algebraic witnesses, an integer square root gives
+
+\[
+\frac{L}{2^{128}}<\sqrt3<\frac{L+1}{2^{128}},
+\qquad L=\left\lfloor\sqrt{3\,2^{256}}\right\rfloor.
+\]
+
+The checker verifies both bounding square inequalities. Affine interval
+evaluation and monotonicity of the logarithm then enclose every star
+probability and the constant \(c\).
+
+For each non-equality vertex, the checker evaluates an upper bound on
+
+\[
+\sum_xv_x\log v_x-\sum_xv_x\log q_x
+\]
+
+and proves it is strictly below a lower bound on \(c\). A zero target
+term is omitted; a positive target over a zero witness entry is
+rejected. No floating-point logarithm or floating-point comparison
+participates in these proof decisions.
+
+At an equality vertex, the checker requires the exact uniform parity
+vector and a star atom of matching parity. The equality is then the
+exact identity (2), not a numerical tolerance exception. All other
+vertices require a strict inequality. The smallest certified strict
+vertex slack in this cover exceeds \(2\times10^{-6}\) nats. This is a
+margin for the finite vertex tests, not a uniform separation of all
+nonmaximizing targets from \(c\).
+
+\subsubsection{4.5 Replay result}\label{replay-result}
+
+Run, using Python 3.10 or later with only its standard library:
+
+\begin{verbatim}
+python3 verify.py --out replay.json
+python3 test_verify.py
+\end{verbatim}
+
+The first command reconstructs the lower-bound algebra, all support
+orbits, all six covers, and all 93,792 vertex inequalities. The recorded
+local run returned \texttt{PASS}, with 16,600 leaves. There are 552
+incidences of exact parity vertices across overlapping pieces; every
+other vertex test is strict. The second command passed 13 tests,
+including malformed-certificate rejection, an independent
+Decimal-logarithm diagnostic, and 765 exact rational
+channel-reconstruction checks.
+
+The verifier imports no optimization package or discovery
+implementation. Numerical search suggested the witnesses; the exact
+replay proves the finite lemma. The remaining trusted base is the
+mathematical argument in this document, the checker implementation,
+Python's standard-library integer/fraction semantics, and the execution
+platform. No claim of proof-assistant certification or independent
+specialist review is made.
+
+\subsection{5. Universal upper bound}\label{universal-upper-bound}
+
+Fix a support-simplex point \(p\). By Section 4 it belongs to a leaf
+simplex with vertices \(v_1,\ldots,v_m\) and a common witness
+\(q\in\mathcal M\). Write \(p=\sum_j\lambda_jv_j\). For fixed \(q\),
+divergence is convex in its first argument, since \(t\log t\) is convex
+and the cross-entropy term is linear. Therefore
+
+\[
+\rho(p)\le D(p\Vert q)
+\le\sum_j\lambda_jD(v_j\Vert q)\le c.
+\tag{12}
+\]
+
+This establishes the bound for every real weight vector on all six
+representative supports. Cube symmetries give the same conclusion on
+every irreducible support. Reversing the reductions in Section 3 and
+applying (5) gives \(\rho(p)\le c\) for every distribution on all eight
+cube vertices. Together with (4), this proves the exact global value.
+
+Notice the quantifier: (12) covers every point in each simplex, not just
+its vertices as a finite list of target distributions. Convexity is
+precisely what turns the finite certificate into a universal upper
+bound.
+
+\subsection{6. Classification of all maximizing
+targets}\label{classification-of-all-maximizing-targets}
+
+First consider a target on an irreducible support. Every non-parity
+vertex of every leaf has a strict bound. If a target is not a leaf
+vertex, its barycentric representation uses at least two distinct
+vertices. On the finite-divergence simplex, \(D(\cdot\Vert q)\) is
+strictly convex: \(\sum_xp_x\log p_x\) is strictly convex and the other
+term is linear. Thus (12) is strict for any such target. It follows that
+equality on irreducible supports is possible only at a uniform parity
+vector. Cube symmetries only exchange the two parity vectors.
+
+Now take a target for which Section 3 made at least one strict support
+reduction. If its terminal target is not uniform parity, monotonicity
+already gives \(\rho(p)<c\). Otherwise consider the last inverse channel
+\(K\) in (7), so its input is uniform parity \(u\). Let \(q^*_u>0\) be a
+parity projection from Section 2. Then
+
+\[
+\rho(Ku)\le D(Ku\Vert Kq^*_u)<D(u\Vert q^*_u)=c.
+\tag{13}
+\]
+
+The middle inequality is strict by the equality condition in the log-sum
+inequality. In each output fiber with changed bit \(b\), the channel
+merges the two input values \(a,b\) with positive \(q^*_u\)-mass from
+both. Exactly one of the two parity target entries is positive. Their
+likelihood ratios relative to \(q^*_u\) are consequently different,
+while \(\tau>0\) ensures genuine merging. Earlier channels preserve the
+strict upper bound by (5).
+
+Targets with a deterministic coordinate have zero error. Hence the only
+global maximizers are \(u_E\) and \(u_O\), as claimed.
+
+\subsection{7. Constructive content and dimensional
+transfer}\label{constructive-content-and-dimensional-transfer}
+
+The upper bound supplies an explicit procedure, not just an existence
+argument. For a given target, apply (6), recording each channel.
+Transform the terminal support to a representative. Sort its weights to
+choose a root in (9), if needed. Descend the split tree using
+barycentric coordinates. Read the exact witness at its leaf, undo the
+cube symmetry, and apply the recorded channels. The resulting
+distribution remains a mixture of two products and has divergence at
+most \(c\).
+
+The command-line implementation \texttt{witness.py} accepts exact
+rational input probabilities. It verifies all six certificates before
+answering queries, performs the channel and barycentric calculations
+with fractions, and returns mixture weights and Bernoulli parameters in
+\(\mathbb Q(\sqrt3)\), together with the reduction, symmetry and leaf
+trace. It returns a feasible approximation certified to have divergence
+at most \(c\), \textbf{not} a generally optimal projection or an
+algorithm for training an RBM. The written procedure applies to
+arbitrary real targets; the executable interface is restricted to
+rational targets. Bit-coordinate arrays in this interface are explicitly
+least-significant-bit first.
+
+\subsubsection{7.1 Worked channel and tree
+query}\label{worked-channel-and-tree-query}
+
+Take \(p=(3,1,0,4,0,4,3,1)/16\). For the least significant bit, the
+slices with bit values 0 and 1 have comparable supports, and (6) gives
+\(\tau=1/3\). The reduced target is exactly \(u_E\). The deterministic
+tie rule orders its support as \((0,3,5,6)\), selecting root 0 with
+barycentric coordinates \((0,0,0,1)\). Descending the recorded tree
+locates a leaf containing that parity vertex and its matching star
+witness. Undoing the recorded channel produces a two-product mixture for
+\(p\). The strict data-processing argument in (13) shows its error is
+below \(c\). The exact leaf address, final parameters and barycentric
+weights are retained in \texttt{examples/channel-witness.json}.
+
+\begin{verbatim}
+python3 witness.py 3/16 1/16 0 1/4 0 1/4 3/16 1/16 --out query.json
+python3 test_witness.py
+\end{verbatim}
+
+\subsubsection{7.2 A conditioning transfer
+theorem}\label{a-conditioning-transfer-theorem}
+
+For positive integers \(n,k\), let \(\mathcal M_{n,k}\) denote mixtures
+of at most \(k\) Bernoulli products on \(n\) bits, with closed
+parameters, and let
+\(R(n,k)=\sup_p\min_{q\in\mathcal M_{n,k}}D(p\Vert q)\).
+
+\textbf{Proposition (conditioning lift).} If \(n\ge m\ge1\), then
+
+\[
+R(n,2^{n-m}k)\le R(m,k).
+\tag{14}
+\]
+
+\textbf{Proof.} Write a target as \(p(z,y)=p_Z(z)p(y\mid z)\), with
+\(z\) consisting of \(n-m\) fixed coordinates. Ignore zero-mass
+contexts. For each other context choose a \(k\)-product approximation
+\(q_z\) to its conditional law with error at most \(R(m,k)\). The
+distribution \(q(z,y)=p_Z(z)q_z(y)\) is a mixture of at most
+\(2^{n-m}k\) products: append the deterministic coordinates \(z\) to
+every component of \(q_z\), and multiply its weight by \(p_Z(z)\). The
+supports of the contexts are disjoint, so cancellation of the common
+context weights gives
+
+\[
+D(p\Vert q)=\sum_{z:p_Z(z)>0}p_Z(z)D(p(\cdot\mid z)\Vert q_z)
+\le R(m,k).
+\]
+
+Taking the minimum and supremum proves (14). This is the standard
+disjoint-support mixture principle, written here explicitly; no novelty
+is claimed for the lifting mechanism.
+
+\textbf{Corollary.} The three-bit theorem implies, for every \(n\ge3\)
+and every \(k\ge2^{n-2}\),
+
+\[
+R(n,k)\le c=-\frac34\log(2\sqrt3-3).
+\tag{15}
+\]
+
+In bits this upper bound is \(c/\log2=0.830615532444310205\ldots\). It
+improves the elementary one-bit upper bound at \(k=2^{n-2}\):
+conditioning on \(n-2\) bits and approximating each remaining two-bit
+table by its independent marginals gives error \(I(X;Y)\le\log2\). The
+mechanism is established in the disjoint-support mixture literature; the
+quantitative improvement is a consequence of the candidate three-bit
+constant. Sharpness for \(n>3\), maximizers in higher dimensions,
+stronger bounds at other component budgets, and consequences for general
+multi-hidden-unit RBMs are \textbf{not} established. In particular,
+product mixtures and RBMs must not be interchanged for these larger
+parameter values.
+
+\texttt{Oracle.approximate} implements (14) for \(m=3,k=2\). Its tests
+cover 765 rational three-bit targets over every nonempty support, both
+parity targets, the worked channel example, and 50 four-/five-bit
+conditioning examples. These finite tests diagnose the implementation;
+the all-dimensional claim is the analytic argument above.
+
+The retained discovery scripts are optional. They are not imported by
+the checker and need NumPy/SciPy only if the search is rerun. A
+numerical run need not regenerate byte-identical witnesses on a
+different optimizer version; the frozen exact certificate, not
+deterministic discovery, is the proof object.
+
+No boundary-MLE stratum classification, floating-point EM fit,
+approximate global optimizer, unproved entropy inequality, or symmetry
+average of mixtures is needed in the final proof.
+
+\subsection{8. Prior art, scope, and review
+boundary}\label{prior-art-scope-and-review-boundary}
+
+The problem is the frozen AIM/UnsolvedMath item
+\texttt{AIM-PROBABILITY-0002}, not the neighboring
+RBM(3,2)/three-component-mixture problem. Montúfar's 2018 review,
+Section 9, item 10, already records the proposed value, attributed to
+discussions with Johannes Rauh. Its formulation and numerical constant
+are not claimed as discoveries here. The current full-scope contribution
+proposed for review is the channel reduction plus the exact convex
+cover, together with the short parity certificate and equality argument.
+
+The necessary supermodularity description is consistent with
+Allman--Rhodes--Sturmfels--Zwiernik's nonnegative-rank-two framework.
+Section 2 proves the inclusion actually needed, so the final argument
+does not silently rely on a positive-support characterization at zero
+entries. The exact boundary-MLE paper was useful during reconnaissance
+but is not a dependency of the final proof.
+
+Alexandr and Hoşten (2025), Proposition 2, use strict convexity to
+localize divergence maximizers at vertices of logarithmic Voronoi
+polytopes for linear and toric models. The shared convexity principle is
+established material. Our cover consists instead of prescribed simplices
+with feasible common witnesses for a nonconvex two-product mixture
+model: a witness need not be the projection throughout its simplex. The
+new proof object does not reconstruct logarithmic Voronoi polytopes.
+Montúfar, Rauh and Ay (2013), Lemma 6, give the established
+disjoint-support decomposition underlying Section 7.2.
+
+The bounded novelty searches found no source proving this same global
+equality. That does not establish priority, present-day openness, or
+absence of unpublished work. The accompanying novelty note records the
+search limits. Internal model-mediated review and producer replay are
+not independent mathematical review. The constructive interface and the
+conditioning corollary demonstrate scoped reuse, not measured impact or
+a substantiated four-star assessment.
+
+\subsection{9. Proof-to-checker map and
+disclosure}\label{proof-to-checker-map-and-disclosure}
+
+{
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Obligation
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Exact executable check
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Analytic bridge retained in the manuscript
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Parity lower bound & \texttt{lower\_certificate}: mixture identity,
+signs, nine inequalities, three multipliers & Necessary cone inclusion,
+convex supporting plane, boundary passage and uniqueness; Section 2 \\
+All targets reduce to six support orbits &
+\texttt{support\_certificate}: all 255 supports, 50 irreducibles and six
+orbits & Reverse-channel formula, strict support decrease and data
+processing; Section 3 \\
+Continuous simplex coverage & \texttt{root\_simplices},
+\texttt{verify\_cover}: roots, every branch, no orphan node &
+Ordered-weight root decomposition and midpoint coverage; Sections
+4.1--4.2 \\
+Feasible common witnesses & \texttt{witness\_logs},
+\texttt{lower\_certificate} & Product-mixture model definition; Sections
+2 and 4.3 \\
+Strict vertex error bounds & \texttt{log\_interval},
+\texttt{vertex\_slack}, exact parity exception & Log-series remainder
+and first-argument convexity; Sections 4.4--5 \\
+Only two maximizers & Strict vertex tests and exact parity recognition &
+Strict convexity and strict log-sum equality condition; Section 6 \\
+Constructive query and lift & \texttt{witness.py},
+\texttt{test\_witness.py} & Channel reversal and disjoint-context KL
+identity; Section 7 \\
+\end{longtable}
+}
+
+The checker is a standalone implementation separated from discovery
+within the same producer-coordinated workflow. The test suite is not a
+formal verification. Neither the lower-bound analytic bridges nor the
+all-dimensional quantifiers are reduced to checking finitely many random
+inputs.
+
+The scholarly creator is Anonymous; Evidence Press is the publisher, not
+an inferred personal author. A human directed the research and supplied
+review; an OpenAI Codex research assistant drafted the mathematical
+argument, implemented search and verification, revised the manuscript
+and prepared the release. Producer-coordinated model reports provide
+internal editorial scrutiny only. No external funding or competing
+interests have been declared; no human/animal subjects or personal
+datasets are involved. These disclosures do not establish independent
+validation.
+
+All original prose and mathematical certificate data are offered under
+CC0-1.0; original code is MIT. The package links third-party literature
+and code without relicensing them. The supplied review is not
+redistributed. The paper, source, exact certificates, executable witness
+interface, semantic controls and original response matrix are available
+together in the versioned evidence package. Optional discovery requires
+the separately listed numerical dependencies; all proof replay and query
+operations use Python's standard library.
+
+\subsubsection{Sources}\label{sources}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Guido Montúfar, \emph{Restricted Boltzmann Machines: Introduction and
+  Review} (2018), especially Sections 3 and 9, item 10.
+  \href{https://arxiv.org/abs/1806.07066}{Primary preprint}.
+\item
+  Elizabeth S. Allman, John A. Rhodes, Bernd Sturmfels, Piotr Zwiernik,
+  \emph{Tensors of Nonnegative Rank Two}, Linear Algebra and its
+  Applications 473 (2015), 37--53.
+  \href{https://arxiv.org/abs/1305.0539}{Primary preprint}.
+\item
+  Anna Seigal and Guido Montúfar, \emph{Mixtures and products in two
+  graphical models}. This is the neighboring, different model.
+  \href{https://arxiv.org/abs/1709.05276}{Primary preprint}.
+\item
+  Elizabeth S. Allman, Hector Baños Cervantes, Robin Evans, Serkan
+  Hoşten, Kaie Kubjas, Daniel Lemke, John A. Rhodes and Piotr Zwiernik,
+  \emph{Maximum Likelihood Estimation of the Latent Class Model through
+  Model Boundary Decomposition}, Journal of Algebraic Statistics 10(1)
+  (2019), 51--84. \href{https://doi.org/10.18409/jas.v10i1.75}{DOI};
+  \href{https://arxiv.org/abs/1710.01696}{primary preprint}.
+  Reconnaissance only.
+\item
+  Yulia Alexandr and Serkan Hoşten, \emph{Maximum information divergence
+  from linear and toric models}, Information Geometry 8 (2025),
+  159--197. \href{https://doi.org/10.1007/s41884-025-00166-3}{DOI};
+  \href{https://arxiv.org/abs/2308.15598}{primary preprint}, Proposition
+  2.
+\item
+  Guido Montúfar, Johannes Rauh and Nihat Ay, \emph{Maximal Information
+  Divergence from Statistical Models Defined by Neural Networks}, in
+  Geometric Science of Information (2013), 759--766.
+  \href{https://arxiv.org/abs/1303.0268}{Primary preprint}, Lemma 6.
+  Established disjoint-support mixture mechanism.
+\end{enumerate}
+
+The primary sources, GitHub implementation, and live Evidence Press
+context are identified in \texttt{NOVELTY.md}. Original screening
+excerpts remain in the preserved review-v1 archive and are not
+redistributed in this successor.

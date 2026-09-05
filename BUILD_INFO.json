@@ -1,0 +1,12 @@
+{
+  "status": "PRODUCER_REPLAY_PASS",
+  "problem": "AIM-PROBABILITY-0002",
+  "python": "3.14.6 (main, Jun 10 2026, 10:03:53) [Clang 21.0.0 (clang-2100.0.123.102)]",
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "version": "0.1.0-candidate",
+  "doi": "10.5281/zenodo.22339153",
+  "normal_and_optimized": true,
+  "formal_verification": false,
+  "unaffiliated_review": false,
+  "original_review_archive_sha256": "c9031bc194d6e165f563e3a67bd3658c7b419667b44d3e21233eb81ae5b19e66"
+}

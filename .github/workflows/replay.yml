@@ -1,0 +1,22 @@
+name: Exact certificate replay
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.11', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python build_release.py --check
+      - run: python verify.py
+      - run: python -O verify.py
+      - run: python test_verify.py
+      - run: python -O test_verify.py
+      - run: python test_witness.py
+      - run: python -O test_witness.py

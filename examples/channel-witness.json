@@ -1,0 +1,95 @@
+{
+  "status": "CERTIFIED_FEASIBLE_WITNESS_NOT_OPTIMAL_PROJECTION",
+  "bound_nats": "-3/4 log(2 sqrt(3)-3)",
+  "parameter_order": "least-significant-bit first",
+  "components": [
+    {
+      "weight": {
+        "rational": "1/2",
+        "sqrt3_coefficient": "-1/6"
+      },
+      "bernoulli_parameters": [
+        {
+          "rational": "1/4",
+          "sqrt3_coefficient": "0"
+        },
+        {
+          "rational": "0",
+          "sqrt3_coefficient": "0"
+        },
+        {
+          "rational": "0",
+          "sqrt3_coefficient": "0"
+        }
+      ]
+    },
+    {
+      "weight": {
+        "rational": "1/2",
+        "sqrt3_coefficient": "1/6"
+      },
+      "bernoulli_parameters": [
+        {
+          "rational": "11/8",
+          "sqrt3_coefficient": "-3/8"
+        },
+        {
+          "rational": "3/2",
+          "sqrt3_coefficient": "-1/2"
+        },
+        {
+          "rational": "3/2",
+          "sqrt3_coefficient": "-1/2"
+        }
+      ]
+    }
+  ],
+  "trace": [
+    {
+      "context": 0,
+      "mass": "1",
+      "local": {
+        "channels": [
+          {
+            "bit": 1,
+            "source": 0,
+            "tau": "1/3"
+          }
+        ],
+        "terminal_target": [
+          "1/4",
+          "0",
+          "0",
+          "1/4",
+          "0",
+          "1/4",
+          "1/4",
+          "0"
+        ],
+        "representative": [
+          0,
+          3,
+          5,
+          6
+        ],
+        "permutation": [
+          0,
+          1,
+          2
+        ],
+        "flip": 0,
+        "leaf": "0:00000000",
+        "barycentric": [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        "witness": {
+          "atom": 0,
+          "kind": "star"
+        }
+      }
+    }
+  ]
+}
